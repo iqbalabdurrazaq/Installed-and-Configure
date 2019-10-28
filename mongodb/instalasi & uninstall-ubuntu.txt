@@ -1,0 +1,56 @@
+step 1
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+
+step 2
+sudo apt-get install gnupg
+
+step 3 
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+
+step 4 
+// install mongodb ubuntu 16.04 >> Create the /etc/apt/sources.list.d/mongodb-org-4.2.list file for Ubuntu 16.04 (Xenial):
+sudo bash
+sudo echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+// install mongodb ubuntu 18.04 >> Create the /etc/apt/sources.list.d/mongodb-org-4.2.list file for Ubuntu 18.04 (Bionic):
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+step 5
+sudo apt-get update
+// To install the latest stable version, issue the following >>
+sudo apt-get install -y mongodb-org
+
+// To install a specific release, you must specify each component package individually along with the version number, as in the following example: >>
+sudo apt-get install -y mongodb-org=4.2.1 mongodb-org-server=4.2.1 mongodb-org-shell=4.2.1 mongodb-org-mongos=4.2.1 mongodb-org-tools=4.2.1
+
+step 6
+sudo service mongod start
+
+step 7
+// Verify that the mongod process has started successfully by checking the contents of the log file at /var/log/mongodb/mongod.log for a line reading
+[initandlisten] waiting for connections on port 27017
+
+step 8
+sudo service mongod stop
+
+step 9
+sudo service mongod restart
+
+finished start mongo
+mongo
+
+uninstall
+
+step 1
+sudo service mongod stop
+
+step 2
+sudo apt-get purge mongodb-org*
+
+step 3
+sudo rm -r /var/log/mongodb
+sudo rm -r /var/lib/mongodb
+
+
+
+
