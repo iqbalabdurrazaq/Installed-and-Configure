@@ -42,4 +42,14 @@ we’ll have to enable this new site configuration and we’ll disable the defau
 $ sudo a2ensite abcd.conf
 $ sudo a2dissite 000-default.conf
 
-finish
+automatically  node app 
+$ sudo chmod 755 index.js
+
+didalam folder node js install
+$ sudo npm install -g pm2
+
+kemudian jalan index.js dengan perintah : 
+$sudo pm2 start index.js
+
+dan file node app akan berjalan secara otomatis, untuk menghentikannya lakukan perintah :
+$ sudo pm2 unstartup systemd
