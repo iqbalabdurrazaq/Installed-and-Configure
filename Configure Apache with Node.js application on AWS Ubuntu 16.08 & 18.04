@@ -1,0 +1,45 @@
+we need to proxy all requests incoming on port 80 through the URL of a node.js application to the running local node.js process. 
+For this, we need to install/enable mod_proxy and mod_proxy_http modules on the Apache server :
+
+$ a2enmod proxy
+$ a2enmod proxy_http
+
+now the exciting part begins. We need to configure the Apache server to proxy requests to node.js applications. 
+We’ll then configure a VirtualHost for this :
+
+$ sudo nano /etc/apache2/sites-available/abcd.conf
+
+#/etc/apache2/sites-available/abcd.conf
+<VirtualHost *:80>
+ ServerAdmin webmaster@localhost
+ ServerName mySite [nama IPv4 Public IP]
+ ServerAlias www.abcd.com [nama domain]
+DocumentRoot /var/www/html/abcd [tempat penyimpanan file node js]
+ <Directory />
+ Options -Indexes +FollowSymLinks
+ AllowOverride None
+ Require all granted
+ </Directory>
+ProxyRequests Off
+ ProxyPreserveHost On
+ ProxyVia Full
+ <Proxy *>
+ Require all granted
+ </Proxy>
+<Location /nodejsApp>
+ ProxyPass http://127.0.0.1:8080
+ ProxyPassReverse http://127.0.0.1:8080
+ </Location>
+ErrorLog ${APACHE_LOG_DIR}/error.log
+# Possible values include: debug, info, notice, warn, error, crit,
+ # alert, emerg.
+ LogLevel warn
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+we’ll have to enable this new site configuration and we’ll disable the default one.
+
+$ sudo a2ensite abcd.conf
+$ sudo a2dissite 000-default.conf
+
+finish
